@@ -1,0 +1,26 @@
+
+var Cloudant = require('cloudant');
+
+function insertindatabase() {
+var me = '10b856c6-c2c2-4ed6-8b21-670740be6be9-bluemix'; // Replace with your account.
+var password = '1d83eaa47d466167765e77b989139c4aad65beeef39e5cc9344ae8cf438d6c42';
+Cloudant({account:me, password:password}, function(err, cloudant) {
+  if (err) {
+    return console.log('Failed to initialize Cloudant: ' + err.message);
+  }
+   console.log('You are Connected');
+  var db = cloudant.db.use("test");
+    // Specify the database we are going to use (alice)...
+    var alice = cloudant.db.use('test')
+	 time=setInterval(function(){
+		count=count + 1;
+  alice.insert({ temp: false }, `{"d" : { "cpu" : ${count}, "mem" : 50 }}`, function(err, body, header) {
+      if (err) {
+        return console.log('[test.insert] ', err.message);
+      }
+      console.log('You have inserted the rabbit.');
+      console.log(body);
+    });
+},9000);
+});
+} 
